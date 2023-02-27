@@ -46,15 +46,16 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
       <Typography
         variant="h5"
         component="div"
-        sx={{ flexGrow: 1, textAlign: "center" , py :3 }}
+        sx={{ flexGrow: 1, textAlign: "center", py: 3 }}
       >
         AGENDA
       </Typography>
 
       <Divider />
 
-      <AddTask forAddTask={handleTaskDialog} OpenTask={taskOpen} />
-      <Stack style={{ margin: 20 }}>
+    
+
+      <Stack>
         <Button
           variant="contained"
           size="large"
@@ -111,6 +112,9 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
     </Container>
   );
 
+
+
+
   return (
     <>
       <Drawer
@@ -132,7 +136,7 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
       >
         {draweItems}
       </Drawer>
-
+      <AddTask forAddTask={handleTaskDialog} OpenTask={taskOpen} />
       <Drawer
         variant="permanent"
         sx={{

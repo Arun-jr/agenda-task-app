@@ -1,21 +1,31 @@
-import { AccountCircle, Menu } from "@mui/icons-material";
+import {
+  AccountCircle,
+  Add,
+  Menu,
+  Search,
+  SearchIconWrapper,
+} from "@mui/icons-material";
 import {
   AppBar,
   Box,
-  Button,
   Grid,
+  Hidden,
   IconButton,
   Toolbar,
   Typography,
 } from "@mui/material";
+import { styled, alpha } from "@mui/material/styles";
 import React, { useState } from "react";
 import Leftmenu from "../Components/Leftmenu";
 import Rightmenu from "../Components/Rightmenu";
+import { Button } from "@material-tailwind/react";
+import InputBase from "@mui/material/InputBase";
+import AddTask from "../Components/AddTask";
 
 function Navbar() {
   const [mobileOpenLeft, setMobileOpenLeft] = useState(false);
   const [mobileOpenRight, setMobileOpenRight] = useState(false);
- 
+  const [taskOpen, SetTaskOpen] = useState(false);
 
   const handleDrawerToggleLeft = () => {
     setMobileOpenLeft(!mobileOpenLeft);
@@ -25,13 +35,53 @@ function Navbar() {
     setMobileOpenRight(!mobileOpenRight);
   };
 
+  const Searcher = styled("div")(({ theme }) => ({
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(3),
+      width: "auto",
+    },
+  }));
 
+  const SearchIconWrapper = styled("div")(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  }));
 
-  return (
-    <Box sx={{ display: 'flex' }}>
-    <AppBar position="static">
-      <Toolbar>
-       
+  const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: "inherit",
+    "& .MuiInputBase-input": {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+      transition: theme.transitions.create("width"),
+      width: "100%",
+      [theme.breakpoints.up("md")]: {
+        width: "20ch",
+      },
+    },
+  }));
+
+  const handleTaskDialog = () => {
+    SetTaskOpen(!taskOpen);
+  };
+
+  const AppBarFunct = (
+    <>
+      <Hidden lgUp={true}>
         <IconButton
           size="large"
           edge="start"
@@ -42,9 +92,37 @@ function Navbar() {
         >
           <Menu />
         </IconButton>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          AGENDA
-        </Typography>
+        <Hidden only={"xs"}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            AGENDA
+          </Typography>
+        </Hidden>
+      </Hidden>
+
+      <Searcher>
+        <SearchIconWrapper>
+          <Search />
+        </SearchIconWrapper>
+        <StyledInputBase
+          placeholder="Search…"
+          inputProps={{ "aria-label": "search" }}
+        />
+      </Searcher>
+
+      <Box sx={{ flexGrow: 1, textAlign: "right" }}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="menu-appbar"
+          aria-haspopup="true"
+          onClick={handleTaskDialog}
+          color="inherit"
+        >
+          <Add />
+        </IconButton>
+      </Box>
+
+      <Hidden lgUp={true}>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -55,17 +133,40 @@ function Navbar() {
         >
           <AccountCircle />
         </IconButton>
-      </Toolbar>
-      
-    </AppBar>
-    <Leftmenu
-          forLeftMenu={handleDrawerToggleLeft}
-          OpenLeft={mobileOpenLeft}
-        />
-    <Rightmenu
-        forRightMenu={handleDrawerToggleRight}
-        OpenRight={mobileOpenRight}
-      />
+      </Hidden>
+    </>
+  );
+
+  return (
+    <Box sx={{ display: "flex" }}>
+      <Hidden lgUp={true}>
+        <AppBar position="static">
+          <Toolbar>{AppBarFunct}</Toolbar>
+        </AppBar>
+      </Hidden>
+      <Grid container spacing={0.5} className="flex justify-center ">
+        <Grid item>
+          <Leftmenu
+            forLeftMenu={handleDrawerToggleLeft}
+            OpenLeft={mobileOpenLeft}
+          />
+        </Grid>
+        <Grid item lg={7.22} xl={7.93}>
+          <Hidden lgDown={true}>
+            <AppBar position="static">
+              <Toolbar>{AppBarFunct}</Toolbar>
+            </AppBar>
+          </Hidden>
+        </Grid>
+        <Grid item>
+          <Rightmenu
+            forRightMenu={handleDrawerToggleRight}
+            OpenRight={mobileOpenRight}
+          />
+        </Grid>
+      </Grid>
+
+      <AddTask forAddTask={handleTaskDialog} OpenTask={taskOpen} />
     </Box>
   );
 }
