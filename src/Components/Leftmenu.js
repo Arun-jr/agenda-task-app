@@ -14,12 +14,10 @@ import {
   Typography,
 } from "@mui/material";
 import {
-  Add,
+  Bookmark,
   DoneAll,
   ListAlt,
-  Pending,
   PendingActions,
-  PlusOne,
   Task,
 } from "@mui/icons-material";
 
@@ -52,8 +50,6 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
       </Typography>
 
       <Divider />
-
-    
 
       <Stack>
         <Button
@@ -89,9 +85,19 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
           <ListItemText primary="All task" />
         </ListItemButton>
         <ListItemButton
-          title="Completed task"
+          title="Important Task"
           selected={selectedIndex === 2}
           onClick={(event) => handleListItemClick(event, 2)}
+        >
+          <ListItemIcon>
+            <Bookmark />
+          </ListItemIcon>
+          <ListItemText primary="Important Task" />
+        </ListItemButton>
+        <ListItemButton
+          title="Completed task"
+          selected={selectedIndex === 3}
+          onClick={(event) => handleListItemClick(event, 3)}
         >
           <ListItemIcon>
             <DoneAll />
@@ -100,8 +106,8 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
         </ListItemButton>
         <ListItemButton
           title="Uncompleted task"
-          selected={selectedIndex === 3}
-          onClick={(event) => handleListItemClick(event, 3)}
+          selected={selectedIndex === 4}
+          onClick={(event) => handleListItemClick(event, 4)}
         >
           <ListItemIcon>
             <PendingActions />
@@ -111,9 +117,6 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
       </List>
     </Container>
   );
-
-
-
 
   return (
     <>

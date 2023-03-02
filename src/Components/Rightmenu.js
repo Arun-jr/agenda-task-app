@@ -1,17 +1,28 @@
-import React, { createContext, useContext } from "react";
+import React, { useContext } from "react";
 import Drawer from "@mui/material/Drawer";
-import { Button } from "@material-tailwind/react";
-import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
-import { Switch } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import {
+  Box,
+  Container,
+  Divider,
+ 
+  Typography,
+  Button,
+  IconButton,
+} from "@mui/material";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
-
 import { ColorModeContext } from "../App";
+import { Stack } from "@mui/system";
+import { AccountCircle } from "@mui/icons-material";
+import { useTheme } from "@mui/material/styles";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 
 function Rightmenu({ forRightMenu, OpenRight }, props) {
   const colorMode = useContext(ColorModeContext);
-
+  const theme = useTheme();
   const drawerWidth = 250;
   const { window } = props;
   const container =
@@ -33,53 +44,74 @@ function Rightmenu({ forRightMenu, OpenRight }, props) {
 
   const draweItems = (
     <>
-      <div className="text-white flex justify-center">
-        <div className="text-right m-2">
-          <p className="text-lg font-medium">Login</p>
-          <p className="text-sm">20/05/2022</p>
-        </div>
-        <div className="my-2 flex items-center justify-center bg-secondary  rounded-full w-12 h-12">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
+      <Container>
+        <Stack direction={"row"} justifyContent="center">
+          <Stack
+            direction={"column"}
+            justifyContent="end"
+            alignItems={"end"}
+            margin={1}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-            />
-          </svg>
-        </div>
-      </div>
-      <hr />
-      <div className="text-white flex justify-between m-4">
-        <p> Dark mode </p>
-        <Switch onClick={colorMode.toglleColorMode} />
-        {console.log(colorMode)}
-      </div>
-      <div className="text-white  m-4">
-        <div className="flex justify-between m-2">
-          <p className=""> All tasks </p>
-          <p className=""> 5/10 </p>
-        </div>
+            <Typography variant="h6"> Login </Typography>
+            <Typography> 12/23/3032 </Typography>
+          </Stack>
+          <IconButton>
+            <AccountCircle sx={{ width: 50, height: 50 }} />
+          </IconButton>
+        </Stack>
+      </Container>
+      <Divider />
+      <Stack
+        direction={"row"}
+        spacing={4}
+        justifyContent="space-evenly"
+        alignItems={"center"}
+        margin={1}
+      >
+        <Typography className="capitalize font-bold" >
+          
+          {theme.palette.mode} mode
+        </Typography>
+        <IconButton
+          sx={{ ml: 1 }}
+          onClick={colorMode.toglleColorMode}
+          color="inherit"
+        >
+          {theme.palette.mode === "dark" ? (
+            <Brightness7Icon />
+          ) : (
+            <Brightness4Icon />
+          )}
+        </IconButton>
+        {/* <Switch onClick={colorMode.toglleColorMode} /> */}
+      </Stack>
+      <Box padding={2}>
+        <Stack
+          direction={"row"}
+          spacing={4}
+          justifyContent="space-between"
+          alignItems={"center"}
+          margin={1}
+        >
+          <Typography> All tasks </Typography>
+          <Typography> 5/10 </Typography>
+        </Stack>
         <BorderLinearProgress variant="determinate" value={50} />
-      </div>
-      <Button className="text-white border-2 border-dotted p-2 flex justify-center m-4">
-        Delete all tasks
-      </Button>
+      </Box>
+      <Stack justifyContent={"center"} padding={2}>
+        <Button variant="contained" size="large" title=" Delete all tasks">
+          Delete all tasks
+        </Button>
+      </Stack>
     </>
   );
 
   return (
-    <div className="bg-black">
+    <>
       <Drawer
         container={container}
         variant="temporary"
-        anchor="right" 
+        anchor="right"
         open={OpenRight}
         onClose={forRightMenu}
         ModalProps={{
@@ -110,7 +142,7 @@ function Rightmenu({ forRightMenu, OpenRight }, props) {
       >
         {draweItems}
       </Drawer>
-    </div>
+    </>
   );
 }
 

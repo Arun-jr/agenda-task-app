@@ -3,7 +3,6 @@ import {
   Add,
   Menu,
   Search,
-  SearchIconWrapper,
 } from "@mui/icons-material";
 import {
   AppBar,
@@ -18,7 +17,6 @@ import { styled, alpha } from "@mui/material/styles";
 import React, { useState } from "react";
 import Leftmenu from "../Components/Leftmenu";
 import Rightmenu from "../Components/Rightmenu";
-import { Button } from "@material-tailwind/react";
 import InputBase from "@mui/material/InputBase";
 import AddTask from "../Components/AddTask";
 
