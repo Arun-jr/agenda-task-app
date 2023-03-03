@@ -20,14 +20,30 @@ import {
   PendingActions,
   Task,
 } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import { useTheme } from "@emotion/react";
 
 function Leftmenu({ forLeftMenu, OpenLeft }, props) {
   const [taskOpen, SetTaskOpen] = useState(false);
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(1);
+
+  const navigate = useNavigate();
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
+    if (index === 0) {
+      navigate("/todaytask");
+    } else if (index === 1) {
+      navigate("/");
+    } else if (index === 2) {
+      navigate("/important");
+    } else if (index === 3) {
+      navigate("/completed");
+    } else if (index === 4) {
+      navigate("/uncompleted");
+    }
+    forLeftMenu();
   };
 
   const handleTaskDialog = () => {
@@ -39,8 +55,14 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
+  const theme = useTheme();
+
   const draweItems = (
-    <Container>
+    <Container
+      sx={
+        theme.palette.mode === "dark" ? { color: "white" } : { color: "white" }
+      }
+    >
       <Typography
         variant="h5"
         component="div"
@@ -70,7 +92,13 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
           onClick={(event) => handleListItemClick(event, 0)}
         >
           <ListItemIcon>
-            <Task />
+            <Task
+              sx={
+                theme.palette.mode === "dark"
+                  ? { color: "white" }
+                  : { color: "white" }
+              }
+            />
           </ListItemIcon>
           <ListItemText primary="Today Task" />
         </ListItemButton>
@@ -80,7 +108,13 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
           onClick={(event) => handleListItemClick(event, 1)}
         >
           <ListItemIcon>
-            <ListAlt />
+            <ListAlt
+              sx={
+                theme.palette.mode === "dark"
+                  ? { color: "white" }
+                  : { color: "white" }
+              }
+            />
           </ListItemIcon>
           <ListItemText primary="All task" />
         </ListItemButton>
@@ -90,7 +124,13 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
           onClick={(event) => handleListItemClick(event, 2)}
         >
           <ListItemIcon>
-            <Bookmark />
+            <Bookmark
+              sx={
+                theme.palette.mode === "dark"
+                  ? { color: "white" }
+                  : { color: "white" }
+              }
+            />
           </ListItemIcon>
           <ListItemText primary="Important Task" />
         </ListItemButton>
@@ -100,7 +140,13 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
           onClick={(event) => handleListItemClick(event, 3)}
         >
           <ListItemIcon>
-            <DoneAll />
+            <DoneAll
+              sx={
+                theme.palette.mode === "dark"
+                  ? { color: "white" }
+                  : { color: "white" }
+              }
+            />
           </ListItemIcon>
           <ListItemText primary="Completed task" />
         </ListItemButton>
@@ -110,7 +156,13 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
           onClick={(event) => handleListItemClick(event, 4)}
         >
           <ListItemIcon>
-            <PendingActions />
+            <PendingActions
+              sx={
+                theme.palette.mode === "dark"
+                  ? { color: "white" }
+                  : { color: "white" }
+              }
+            />
           </ListItemIcon>
           <ListItemText primary="Uncompleted task" />
         </ListItemButton>

@@ -1,11 +1,7 @@
-import {
-  AccountCircle,
-  Add,
-  Menu,
-  Search,
-} from "@mui/icons-material";
+import { AccountCircle, Add, Menu, Search } from "@mui/icons-material";
 import {
   AppBar,
+  Avatar,
   Box,
   Grid,
   Hidden,
@@ -19,8 +15,12 @@ import Leftmenu from "../Components/Leftmenu";
 import Rightmenu from "../Components/Rightmenu";
 import InputBase from "@mui/material/InputBase";
 import AddTask from "../Components/AddTask";
+import { Outlet } from "react-router-dom";
+import { useTheme } from "@emotion/react";
 
 function Navbar() {
+  const theme = useTheme();
+
   const [mobileOpenLeft, setMobileOpenLeft] = useState(false);
   const [mobileOpenRight, setMobileOpenRight] = useState(false);
   const [taskOpen, SetTaskOpen] = useState(false);
@@ -116,7 +116,16 @@ function Navbar() {
           onClick={handleTaskDialog}
           color="inherit"
         >
-          <Add />
+          <Avatar
+            sx={
+              theme.palette.mode === "dark"
+                ? { bgcolor: "#2195f2" }
+                : { bgcolor: "#434343" }
+            }
+          >
+            {" "}
+            <Add />
+          </Avatar>
         </IconButton>
       </Box>
 
@@ -129,43 +138,56 @@ function Navbar() {
           onClick={handleDrawerToggleRight}
           color="inherit"
         >
-          <AccountCircle />
+          <Avatar
+            sx={
+              theme.palette.mode === "dark"
+                ? { bgcolor: "#2195f2" }
+                : { bgcolor: "#434343" }
+            }
+          >
+            {" "}
+            <AccountCircle />
+          </Avatar>
         </IconButton>
       </Hidden>
     </>
   );
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <>
       <Hidden lgUp={true}>
-        <AppBar position="static">
+        <AppBar position="sticky">
           <Toolbar>{AppBarFunct}</Toolbar>
         </AppBar>
+        <Outlet />
       </Hidden>
-      <Grid container spacing={0.5} className="flex justify-center ">
-        <Grid item>
-          <Leftmenu
-            forLeftMenu={handleDrawerToggleLeft}
-            OpenLeft={mobileOpenLeft}
-          />
+      <Box sx={{ display: "flex" }}>
+        <Grid container spacing={0.5} className="flex justify-center ">
+          <Grid item>
+            <Leftmenu
+              forLeftMenu={handleDrawerToggleLeft}
+              OpenLeft={mobileOpenLeft}
+            />
+          </Grid>
+          <Grid item lg={7.22} xl={7.93}>
+            <Hidden lgDown={true}>
+              <AppBar position="sticky">
+                <Toolbar>{AppBarFunct}</Toolbar>
+              </AppBar>
+              <Outlet />
+            </Hidden>
+          </Grid>
+          <Grid item>
+            <Rightmenu
+              forRightMenu={handleDrawerToggleRight}
+              OpenRight={mobileOpenRight}
+            />
+          </Grid>
         </Grid>
-        <Grid item lg={7.22} xl={7.93}>
-          <Hidden lgDown={true}>
-            <AppBar position="static">
-              <Toolbar>{AppBarFunct}</Toolbar>
-            </AppBar>
-          </Hidden>
-        </Grid>
-        <Grid item>
-          <Rightmenu
-            forRightMenu={handleDrawerToggleRight}
-            OpenRight={mobileOpenRight}
-          />
-        </Grid>
-      </Grid>
 
-      <AddTask forAddTask={handleTaskDialog} OpenTask={taskOpen} />
-    </Box>
+        <AddTask forAddTask={handleTaskDialog} OpenTask={taskOpen} />
+      </Box>
+    </>
   );
 }
 

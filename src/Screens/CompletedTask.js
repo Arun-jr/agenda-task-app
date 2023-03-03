@@ -1,10 +1,20 @@
-import { Typography } from '@mui/material'
-import React from 'react'
+import { Container, Typography } from "@mui/material";
+import React from "react";
 
 function CompletedTask() {
   return (
-    <Typography variant='h4'>CompletedTask</Typography>
-  )
+    <Container>
+      <Typography variant="h4">CompletedTask</Typography>
+      <Typography variant="h4">CompletedTask</Typography>
+      <Typography variant="h4">CompletedTask</Typography>
+      <Typography variant="h4">CompletedTask</Typography>
+      <Typography variant="h4">CompletedTask</Typography>
+      <Typography variant="h4">CompletedTask</Typography>
+      <Typography variant="h4">CompletedTask</Typography>
+      <Typography variant="h4">CompletedTask</Typography>
+      <Typography variant="h4">CompletedTask</Typography>
+    </Container>
+  );
 }
 
-export default CompletedTask
+export default CompletedTask;

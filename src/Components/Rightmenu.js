@@ -5,7 +5,6 @@ import {
   Box,
   Container,
   Divider,
- 
   Typography,
   Button,
   IconButton,
@@ -19,10 +18,18 @@ import { AccountCircle } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
+import { useNavigate } from "react-router-dom";
 
 function Rightmenu({ forRightMenu, OpenRight }, props) {
   const colorMode = useContext(ColorModeContext);
   const theme = useTheme();
+  const navigate = useNavigate();
+
+  const Login = () => {
+    navigate("/login");
+    forRightMenu();
+  };
+
   const drawerWidth = 250;
   const { window } = props;
   const container =
@@ -44,7 +51,13 @@ function Rightmenu({ forRightMenu, OpenRight }, props) {
 
   const draweItems = (
     <>
-      <Container>
+      <Container
+        sx={
+          theme.palette.mode === "dark"
+            ? { color: "white" }
+            : { color: "white" }
+        }
+      >
         <Stack direction={"row"} justifyContent="center">
           <Stack
             direction={"column"}
@@ -55,8 +68,14 @@ function Rightmenu({ forRightMenu, OpenRight }, props) {
             <Typography variant="h6"> Login </Typography>
             <Typography> 12/23/3032 </Typography>
           </Stack>
-          <IconButton>
-            <AccountCircle sx={{ width: 50, height: 50 }} />
+          <IconButton onClick={() => Login()}>
+            <AccountCircle
+              sx={
+                theme.palette.mode === "dark"
+                  ? { color: "white", width: 50, height: 50 }
+                  : { color: "white", width: 50, height: 50 }
+              }
+            />
           </IconButton>
         </Stack>
       </Container>
@@ -68,8 +87,14 @@ function Rightmenu({ forRightMenu, OpenRight }, props) {
         alignItems={"center"}
         margin={1}
       >
-        <Typography className="capitalize font-bold" >
-          
+        <Typography
+          className="capitalize font-bold"
+          sx={
+            theme.palette.mode === "dark"
+              ? { color: "white" }
+              : { color: "black" }
+          }
+        >
           {theme.palette.mode} mode
         </Typography>
         <IconButton
@@ -78,14 +103,21 @@ function Rightmenu({ forRightMenu, OpenRight }, props) {
           color="inherit"
         >
           {theme.palette.mode === "dark" ? (
-            <Brightness7Icon />
-          ) : (
             <Brightness4Icon />
+          ) : (
+            <Brightness7Icon />
           )}
         </IconButton>
         {/* <Switch onClick={colorMode.toglleColorMode} /> */}
       </Stack>
-      <Box padding={2}>
+      <Box
+        padding={2}
+        sx={
+          theme.palette.mode === "dark"
+            ? { color: "white" }
+            : { color: "white" }
+        }
+      >
         <Stack
           direction={"row"}
           spacing={4}
