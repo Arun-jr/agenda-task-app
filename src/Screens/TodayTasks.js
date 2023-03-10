@@ -4,7 +4,18 @@ import React from "react";
 function TodayTask() {
   return (
     <Container>
-      <Typography variant="h4">TodayTask</Typography>
+      <Typography
+          
+          sx={{
+            my: 2,
+            alignItems: "end",
+            justifyContent: "center",
+            textAlign: { xs: "start", lg: "center" },
+            fontSize : { xs: 20, lg: 25 },
+          }}
+        >
+       TodayTask
+        </Typography>
     </Container>
   );
 }

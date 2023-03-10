@@ -18,6 +18,7 @@ import AddTask from "../Components/AddTask";
 import { Outlet } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 
+
 function Navbar() {
   const theme = useTheme();
 
@@ -77,6 +78,8 @@ function Navbar() {
     SetTaskOpen(!taskOpen);
   };
 
+  
+
   const AppBarFunct = (
     <>
       <Hidden lgUp={true}>
@@ -106,7 +109,7 @@ function Navbar() {
           inputProps={{ "aria-label": "search" }}
         />
       </Searcher>
-
+     
       <Box sx={{ flexGrow: 1, textAlign: "right" }}>
         <IconButton
           size="large"
@@ -123,7 +126,6 @@ function Navbar() {
                 : { bgcolor: "#434343" }
             }
           >
-            {" "}
             <Add />
           </Avatar>
         </IconButton>
@@ -145,7 +147,6 @@ function Navbar() {
                 : { bgcolor: "#434343" }
             }
           >
-            {" "}
             <AccountCircle />
           </Avatar>
         </IconButton>

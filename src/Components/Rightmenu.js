@@ -7,7 +7,11 @@ import {
   Divider,
   Typography,
   Button,
-  IconButton,
+  ListItemButton,
+  ListItemText,
+  ListItemIcon,
+  List,
+  Avatar,
 } from "@mui/material";
 import LinearProgress, {
   linearProgressClasses,
@@ -17,18 +21,21 @@ import { Stack } from "@mui/system";
 import { AccountCircle } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
-import { useNavigate } from "react-router-dom";
+import {getCurrentDate , GetCurrentTime} from './CurrentDate'
+
+
+console.log(getCurrentDate())
+
 
 function Rightmenu({ forRightMenu, OpenRight }, props) {
   const colorMode = useContext(ColorModeContext);
   const theme = useTheme();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const Login = () => {
-    navigate("/login");
-    forRightMenu();
-  };
+  // const Login = () => {
+  //   navigate("/login");
+  //   forRightMenu();
+  // };
 
   const drawerWidth = 250;
   const { window } = props;
@@ -58,58 +65,45 @@ function Rightmenu({ forRightMenu, OpenRight }, props) {
             : { color: "white" }
         }
       >
-        <Stack direction={"row"} justifyContent="center">
-          <Stack
-            direction={"column"}
-            justifyContent="end"
-            alignItems={"end"}
-            margin={1}
-          >
-            <Typography variant="h6"> Login </Typography>
-            <Typography> 12/23/3032 </Typography>
+        <Stack
+          direction={"row"}
+          justifyContent="center"
+          alignItems={"center"}
+          margin={2}
+        >
+          <Stack direction={"column"} justifyContent="end" alignItems={"end"}>
+            <Typography> Hi,user </Typography>
+            <Typography fontSize={13}> {getCurrentDate()} </Typography>
           </Stack>
-          <IconButton onClick={() => Login()}>
-            <AccountCircle
-              sx={
-                theme.palette.mode === "dark"
-                  ? { color: "white", width: 50, height: 50 }
-                  : { color: "white", width: 50, height: 50 }
-              }
-            />
-          </IconButton>
+          <Avatar  sx={
+              theme.palette.mode === "dark"
+                ? { bgcolor: "#2195f2" , marginX : 1 }
+                : { bgcolor: "#434343" , marginX : 1}
+            }>
+            <AccountCircle  />
+          </Avatar>
         </Stack>
       </Container>
       <Divider />
-      <Stack
-        direction={"row"}
-        spacing={4}
-        justifyContent="space-evenly"
-        alignItems={"center"}
-        margin={1}
-      >
-        <Typography
-          className="capitalize font-bold"
-          sx={
-            theme.palette.mode === "dark"
-              ? { color: "white" }
-              : { color: "black" }
-          }
-        >
-          {theme.palette.mode} mode
-        </Typography>
-        <IconButton
-          sx={{ ml: 1 }}
-          onClick={colorMode.toglleColorMode}
-          color="inherit"
-        >
-          {theme.palette.mode === "dark" ? (
-            <Brightness4Icon />
-          ) : (
-            <Brightness7Icon />
-          )}
-        </IconButton>
-        {/* <Switch onClick={colorMode.toglleColorMode} /> */}
-      </Stack>
+      <List component="nav" >
+        <ListItemButton title="Dark mode" alignItems="center" onClick={colorMode.toglleColorMode}>
+          <ListItemText
+            primary={"Dark mode"}
+            sx={
+              theme.palette.mode === "dark"
+                ? { color: "white" , textAlign : 'center' }
+                : { color: "white" , textAlign : 'center' }
+            }
+          />
+          <ListItemIcon>
+            {theme.palette.mode === "dark" ? (
+              <Brightness4Icon />
+            ) : (
+              <Brightness4Icon />
+            )}
+          </ListItemIcon>
+        </ListItemButton>
+      </List>
       <Box
         padding={2}
         sx={
@@ -130,10 +124,15 @@ function Rightmenu({ forRightMenu, OpenRight }, props) {
         </Stack>
         <BorderLinearProgress variant="determinate" value={50} />
       </Box>
-      <Stack justifyContent={"center"} padding={2}>
-        <Button variant="contained" size="large" title=" Delete all tasks">
+      <Stack justifyContent={"center"} padding={2} marginTop="auto">
+      <Typography fontSize={13} margin={1} textAlign="end" sx={
+          theme.palette.mode === "dark"
+            ? { color: "grey" }
+            : { color: "primary" }
+        }> {GetCurrentTime()} </Typography>
+        <Button variant="contained" size="small" title=" Delete all tasks">
           Delete all tasks
-        </Button>
+        </Button> 
       </Stack>
     </>
   );

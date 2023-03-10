@@ -4,15 +4,19 @@ import React from "react";
 function CompletedTask() {
   return (
     <Container>
-      <Typography variant="h4">CompletedTask</Typography>
-      <Typography variant="h4">CompletedTask</Typography>
-      <Typography variant="h4">CompletedTask</Typography>
-      <Typography variant="h4">CompletedTask</Typography>
-      <Typography variant="h4">CompletedTask</Typography>
-      <Typography variant="h4">CompletedTask</Typography>
-      <Typography variant="h4">CompletedTask</Typography>
-      <Typography variant="h4">CompletedTask</Typography>
-      <Typography variant="h4">CompletedTask</Typography>
+     <Typography
+          
+          sx={{
+            my: 2,
+            alignItems: "end",
+            justifyContent: "center",
+            textAlign: { xs: "start", lg: "center" },
+            fontSize : { xs: 20, lg: 25 },
+          }}
+        >
+          CompletedTask
+        </Typography>
+      
     </Container>
   );
 }

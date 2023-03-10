@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useMemo, useState } from "react";
+import React, { createContext,  useMemo, useState } from "react";
 import Navbar from "./Screens/Navbar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
@@ -8,7 +8,8 @@ import ImportantTask from "./Screens/ImportantTask";
 import TodayTask from "./Screens/TodayTasks";
 import UnCompletedTask from "./Screens/UncompletedTask";
 import NotFound from "./Screens/NotFound";
-import Login from "./Screens/Login";
+// import Login from "./Screens/Login";
+import Alltask from "./Screens/Alltask";
 
 export const ColorModeContext = createContext({
   toglleColorMode: () => {},
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
         element: <CompletedTask />,
       },
       {
+        path: "/",
+        element: <Alltask />,
+      },
+      {
         path: "/important",
         element: <ImportantTask />,
       },
@@ -76,12 +81,14 @@ const router = createBrowserRouter([
         path: "/uncompleted",
         element: <UnCompletedTask />,
       },
-      {
-        path: "/login",
-        element: <Login />,
-      },
+      // {
+      //   path: "/login",
+      //   element: <Login />,
+      // },
+      
     ],
   },
+  
 ]);
 
 function App() {
