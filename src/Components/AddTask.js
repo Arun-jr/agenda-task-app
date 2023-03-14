@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import dayjs from "dayjs";
 import { useTheme } from "@emotion/react";
@@ -18,13 +18,10 @@ import { useForm } from "react-hook-form";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import {getCurrentDate} from './CurrentDate'
-
-
-
-
+import { getCurrentDate } from "./CurrentDate";
 
 function AddTask({ forAddTask, OpenTask }) {
+
   const materialTheme = createTheme({
     overrides: {
       MuiPickersToolbar: {
@@ -65,18 +62,42 @@ function AddTask({ forAddTask, OpenTask }) {
   const [dateWithInitialValue, setDateWithInitialValue] = useState(
     dayjs(getCurrentDate())
   );
-  const color = "white";
 
+  const color = "white";
+  
   const {
     register,
     formState: { errors },
     handleSubmit,
-   
+    reset,
   } = useForm();
 
+  const [addTask, setAddTask] = useState(
+    JSON.parse(localStorage.getItem("addTask")) || []
+  );
+
+  useEffect(() => {
+    localStorage.setItem("addTask", JSON.stringify(addTask));
+    if(addTask){
+      addTask.forEach((item, i) => {
+        item.id = i + 1;
+      });
+    }
+  }, [addTask]);
+
   const OnSubmit = (data) => {
-    console.log(data);
+    if (addTask?.length) {
+      const items = JSON.parse(localStorage.getItem("addTask"))
+      items.push(data)
+      setAddTask(items)
+    } else {
+      setAddTask([data]);
+    }
+    forAddTask();
+    reset();
   };
+
+  console.log(addTask, "addTask");
 
   return (
     <Dialog open={OpenTask} onClose={forAddTask}>
@@ -132,7 +153,7 @@ function AddTask({ forAddTask, OpenTask }) {
                 sx={{
                   input: { color },
                   label: { color },
-                  svg : {color},
+                  svg: { color },
                 }}
                 onError={console.log}
                 minDate={dayjs("")}
@@ -147,11 +168,10 @@ function AddTask({ forAddTask, OpenTask }) {
                     margin="dense"
                     aria-invalid={errors.date ? "true" : "false"}
                     {...register("date", { required: true })}
-                   
                     sx={{
                       input: { color },
                       label: { color },
-                      svg : {color},
+                      svg: { color },
                     }}
                   />
                 )}
