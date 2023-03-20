@@ -35,24 +35,24 @@ const theme = (mode) => ({
         }),
   },
 
-  components: {
-    MuiDrawer: {
-      styleOverrides: {
-        paper: {
-          backdropFilter: "blur(5px)",
-          backgroundColor: "rgba(0,0,0,0.4)",
-        },
-      },
-    },
-    MuiDialog: {
-      styleOverrides: {
-        paper: {
-          backdropFilter: "blur(5px)",
-          backgroundColor: "rgba(0,0,0,0.4)",
-        },
-      },
-    },
-  },
+  // components: {
+  //   MuiDrawer: {
+  //     styleOverrides: {
+  //       paper: {
+  //         backdropFilter: "blur(5px)",
+  //         backgroundColor: "rgba(0,0,0,0.4)",
+  //       },
+  //     },
+  //   },
+  //   MuiDialog: {
+  //     styleOverrides: {
+  //       paper: {
+  //         backdropFilter: "blur(5px)",
+  //         backgroundColor: "rgba(0,0,0,0.4)",
+  //       },
+  //     },
+  //   },
+  // },
 });
 
 const router = createBrowserRouter([

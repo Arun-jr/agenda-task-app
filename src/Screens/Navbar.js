@@ -3,6 +3,8 @@ import {
   AppBar,
   Avatar,
   Box,
+  Button,
+  Fab,
   Grid,
   Hidden,
   IconButton,
@@ -17,7 +19,6 @@ import InputBase from "@mui/material/InputBase";
 import AddTask from "../Components/AddTask";
 import { Outlet } from "react-router-dom";
 import { useTheme } from "@emotion/react";
-
 
 function Navbar() {
   const theme = useTheme();
@@ -74,11 +75,15 @@ function Navbar() {
     },
   }));
 
+  const fabStyle = {
+    right: 20,
+    position: "fixed",
+    bottom: 10,
+  };
+
   const handleTaskDialog = () => {
     SetTaskOpen(!taskOpen);
   };
-
-  
 
   const AppBarFunct = (
     <>
@@ -109,47 +114,38 @@ function Navbar() {
           inputProps={{ "aria-label": "search" }}
         />
       </Searcher>
-     
-      <Box sx={{ flexGrow: 1, textAlign: "right" }}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="menu-appbar"
-          aria-haspopup="true"
-          onClick={handleTaskDialog}
-          color="inherit"
-        >
-          <Avatar
-            sx={
-              theme.palette.mode === "dark"
-                ? { bgcolor: "#2195f2" }
-                : { bgcolor: "#434343" }
-            }
+      <Hidden lgDown={true}>
+        <Box sx={{ flexGrow: 1, textAlign: "right" }}>
+          <IconButton
+            size="small"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleTaskDialog}
+            color="inherit"
           >
-            <Add />
-          </Avatar>
-        </IconButton>
-      </Box>
-
+            <Avatar
+              sx={
+                theme.palette.mode === "dark"
+                  ? { bgcolor: "#2195f2" }
+                  : { bgcolor: "#434343" }
+              }
+            >
+              <Add />
+            </Avatar>
+          </IconButton>
+        </Box>
+      </Hidden>
       <Hidden lgUp={true}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
+        <Button
+          size="small"
           aria-controls="menu-appbar"
           aria-haspopup="true"
           onClick={handleDrawerToggleRight}
           color="inherit"
         >
-          <Avatar
-            sx={
-              theme.palette.mode === "dark"
-                ? { bgcolor: "#2195f2" }
-                : { bgcolor: "#434343" }
-            }
-          >
-            <AccountCircle />
-          </Avatar>
-        </IconButton>
+          <AccountCircle sx={{ fontSize: { xs: 40, sm: 45 } }} />
+        </Button>
       </Hidden>
     </>
   );
@@ -188,6 +184,9 @@ function Navbar() {
 
         <AddTask forAddTask={handleTaskDialog} OpenTask={taskOpen} />
       </Box>
+      <Fab onClick={handleTaskDialog} size="small" color="primary" aria-label="add" style={fabStyle}>
+        <Add />
+      </Fab>
     </>
   );
 }

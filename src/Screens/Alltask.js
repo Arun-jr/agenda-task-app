@@ -1,18 +1,22 @@
 import {
   Add,
+  Clear,
   DateRange,
   Delete,
+  Done,
   FormatListBulleted,
   GridView,
+  MoreVert,
 } from "@mui/icons-material";
 import {
+  Avatar,
   Box,
   Button,
   Checkbox,
   Container,
   Divider,
+  Fab,
   FormControl,
-  Grid,
   Hidden,
   IconButton,
   InputLabel,
@@ -20,6 +24,7 @@ import {
   Select,
   ToggleButton,
   ToggleButtonGroup,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { Stack } from "@mui/system";
@@ -28,11 +33,14 @@ import AddTask from "../Components/AddTask";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 
+// # Default  example task data  ----down here------
+
 const defaultTasks = [
   {
     title: "Task 1",
     important: false,
-    description: "This is the description for this task",
+    description:
+      "This is the description for this task This is the description for this task,This is the description for this taskThis is the description for this taskThis is the description for this taskThis is the description for this task This is the description for this taskThis is the description for this task This is the description for this tas This is the description for this taskThis is the description for this task",
     date: "2023-04-12",
     completed: true,
     id: "t1",
@@ -64,19 +72,29 @@ const defaultTasks = [
   },
 ];
 
+// # Default  example task data  ----up here------
+
 function Alltask() {
   const [alignment, setAlignment] = useState("grid");
   const [taskOpen, SetTaskOpen] = useState(false);
+  // const [checked, SetChecked] = useState(false);
+  const [taskData, setTaskData] = useState([]);
+  const [first, setFirst] = useState("");
+
+  // To open Add task dialog {
 
   const handleTaskDialog = () => {
     SetTaskOpen(!taskOpen);
   };
 
+  // }
+  const handleChange = (event) => {
+    setFirst(event.target.value);
+  };
+
   const handleChangeAlign = (event, newAlignment) => {
     setAlignment(newAlignment);
   };
-
-  const [taskData, setTaskData] = useState([]);
 
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("addTask"));
@@ -89,15 +107,11 @@ function Alltask() {
 
   console.log(taskData, "taskData");
 
-  const [first, setFirst] = useState("");
 
-  const handleChange = (event) => {
-    setFirst(event.target.value);
-  };
 
   return (
     <div>
-      <Box sx={{ p : {xs: 1 , md: 3 } ,}}>
+      <Box sx={{ p: { xs: 1, md: 3 } }}>
         <Typography
           sx={{
             my: 2,
@@ -149,7 +163,11 @@ function Alltask() {
           mt={4}
           sx={
             alignment === "grid"
-              ? { display: "flex", flexWrap: "wrap" }
+              ? {
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: { xs: "space-between", md: "start" },
+                }
               : { display: "flex", flexDirection: "column" }
           }
         >
@@ -158,233 +176,153 @@ function Alltask() {
               <Box
                 key={i}
                 sx={{
-                  p: {xs : 1   , sm : 2 },
-                  width:  alignment === "grid" ? { xs: "44%", sm: "47%", lg: "30%" } : "96%",
-                  height : "80%" ,
+                  p: { xs: 1, sm: 2 },
+                  width:
+                    alignment === "grid"
+                      ? {
+                          xs: "44%",
+                          sm: "47%",
+                          md: "30%",
+                          lg: "30%",
+                          xl: "23%",
+                        }
+                      : "96%",
+
+                  position: "relative",
+                  
                   m: 1,
                   border: 1,
                   borderRadius: 2,
-                  ":hover": { boxShadow: 6 },
+                  ":hover": { boxShadow: "0 1px 6px 1px lightgrey" },
                 }}
               >
-                <Box>
-                  <Stack direction={"row"} gap={1} mb={2} alignItems={"center"}>
-                    <DateRange sx={{fontSize : 17}}  />
-                    <Typography sx={{fontSize : 15}}>{data.date}</Typography>
-                  </Stack>
-                  <Typography sx={{fontWeight : "bold"}}>{data.title}</Typography>
-                  <Typography sx={{ pb: 2,  width: 1 }}>
-                    {data.description}
-                  </Typography>
-                  <Divider sx={{mt : 'auto'}}/>
-                  <Stack direction={"row"} pt={2}>
-                    <Hidden only={"xs"}>
-                    <Box
-                      sx={{
-                        p: 1,
-                        width: "auto",
-                        border: 1,
-                        borderRadius: 2,
-                        borderStyle: "dashed",
-                      }}
+                <Box
+                  sx={{
+                    height: 1,
+                    display: "flex",
+                    alignItems: "flex-end",
+                    flexDirection: "column",
+                    justifyContent: "start",
+                  }}
+                >
+                  <Box sx={{ width: 1 }}>
+                    <Stack
+                      direction={"row"}
+                      gap={1}
+                      mb={2}
+                      alignItems={"center"}
                     >
-                      completed
-                    </Box>
-                    </Hidden>
-                    <Checkbox
-                      {...label}
-                      icon={<BookmarkBorderIcon />}
-                      checkedIcon={<BookmarkIcon />}
-                    />
-                    <IconButton>
-                      <Delete />
-                    </IconButton>
-                  </Stack>
+                      <Box sx={{flexGrow : 1 , flexDirection : "row" , display : "flex" , alignItems : "center"}}>
+                      <DateRange sx={{ fontSize: 17 ,marginRight : 1}} />
+                      <Typography sx={{ fontSize: 15 }}>{data.date}</Typography>
+                      </Box>
+                      <IconButton size="small" title="more">
+                        <MoreVert/>
+                      </IconButton>
+                    </Stack>
+                    <Typography sx={{ fontWeight: "bold" }}>
+                      {data.title}
+                    </Typography>
+                    <Typography sx={{ pb: 2, width: 1 }}>
+                      {data?.description?.slice(0, 80)}...
+                    </Typography>
+                    <Divider sx={{ borderStyle: "dashed" }} />
+                  </Box>
+
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "end",
+                      height: 1,
+                      width: 1,
+                    }}
+                  >
+                    {/* <Hidden only={"xs"}>
+                      <Box
+                        sx={{
+                          p: 1,
+                          width: "auto",
+                          border: 1,
+                          borderRadius: 2,
+                          borderStyle: "dashed",
+                        }}
+                      >
+                        completed
+                      </Box>
+                    </Hidden> */}
+                    <Tooltip
+                      title="Complete task"
+                      placement="top"
+                      arrow
+                      TransitionProps={{ timeout: 600 }}
+                    >
+                      <Checkbox
+                        {...label}
+                        icon={
+                          <Avatar
+                            sx={{
+                              width: { xs: 30, md: 40 },
+                              height: { xs: 30, md: 40 },
+                            }}
+                          >
+                            <Done />
+                          </Avatar>
+                        }
+                        checkedIcon={
+                          <Avatar
+                            sx={{
+                              width: { xs: 30, md: 40 },
+                              height: { xs: 30, md: 40 },
+                              bgcolor: "#2195f2",
+                            }}
+                          >
+                            <Clear />
+                          </Avatar>
+                        }
+                      />
+                    </Tooltip>
+                    <Stack direction={"row"} alignItems="start">
+                      <Checkbox
+                        {...label}
+                        icon={<BookmarkBorderIcon />}
+                        checkedIcon={<BookmarkIcon />}
+                      />
+
+                      <IconButton size="medium" title="delete">
+                        <Delete />
+                      </IconButton>
+                    </Stack>
+                  </Box>
                 </Box>
               </Box>
             );
           })}
-            <Box
-              
-                sx={{
-                  p: {xs : 1   , sm : 2 },
-                  width:  alignment === "grid" ? { xs: "44%", sm: "47%", lg: "30%" } : "96%",
-                
-                  m: 1,
-                  border: 1,
-                  borderRadius: 2,
-                  ":hover": { boxShadow: 6 },
-                }}
-              >
-               
-                 
-+
-                 
-                    
-              </Box>
+          <Button
+            onClick={handleTaskDialog}
+            sx={{
+              p: { xs: 1, sm: 2 },
+              width:
+                alignment === "grid"
+                  ? { xs: "44%", sm: "47%", md: "30%", lg: "30%", xl: "23%" }
+                  : "96%",
+
+              m: 1,
+              border: 1,
+              borderStyle: "dashed",
+              display: "flex",
+              height : 260 ,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 2,
+              ":hover": { boxShadow: 6 },
+            }}
+          >
+            <Typography variant="h4"> + </Typography>
+          </Button>
         </Box>
-
-        {/* {alignment === "grid" ? (
-          <Grid container mt={4}>
-            <>
-              {(taskData?.length ? taskData : defaultTasks).map((data, i) => {
-                return (
-                  <Grid
-                    item
-                    sm={5.5}
-                    xs={5}
-                    md={3.5}
-                    xl={2.6}
-                    key={i}
-                    sx={{
-                      p: 2,
-                      m: 1,
-                      border: 1,
-
-                      borderRadius: 2,
-                      ":hover": { boxShadow: 6 },
-                    }}
-                  >
-                    <Box>
-                      <Stack direction={"row"} gap={1} mb={2}>
-                        <DateRange />
-                        <Typography>{data.date}</Typography>
-                      </Stack>
-                      <Typography>{data.title}</Typography>
-                      <Typography sx={{ pb: 2, borderBottom: 1, width: 1 }}>
-                        {data.description}
-                      </Typography>
-                      <Stack direction={"row"} pt={2}>
-                        <Box
-                          sx={{
-                            p: 1,
-                            width: "auto",
-                            border: 1,
-                            borderRadius: 2,
-                            borderStyle: "dashed",
-                          }}
-                        >
-                          completed
-                        </Box>
-
-                        <Checkbox
-                          {...label}
-                          icon={<BookmarkBorderIcon />}
-                          checkedIcon={<BookmarkIcon />}
-                        />
-                        <IconButton>
-                          <Delete />
-                        </IconButton>
-                      </Stack>
-                    </Box>
-                  </Grid>
-                );
-              })}
-            </>
-            <Grid
-              item
-              sm={5.5}
-              xs={5}
-              md={3.5}
-              xl={2.6}
-              height={300}
-              sx={{
-                m: 1,
-                border: 1,
-                borderRadius: 2,
-                borderStyle: "dashed",
-              }}
-            >
-              <Button
-                onClick={handleTaskDialog}
-                sx={{
-                  width: 1,
-                  height: 1,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Add />
-              </Button>
-            </Grid>
-          </Grid>
-        ) : (
-          <Box mt={6}>
-            {(taskData?.length ? taskData : defaultTasks).map((data, i) => {
-              return (
-                <Stack
-                  direction={"column"}
-                  alignItems="start"
-                  sx={{
-                    p: 2,
-                    my: 2,
-                    border: 1,
-                    borderRadius: 2,
-                    ":hover": { boxShadow: 2 },
-                  }}
-                >
-                  <Stack direction={"row"} gap={1} mb={2}>
-                    <DateRange />
-                    <Typography>{data.date}</Typography>
-                  </Stack>
-
-                  <Typography>{data.title}</Typography>
-                  <Typography sx={{ pb: 2, borderBottom: 1, width: 1 }}>
-                    {data.description}
-                  </Typography>
-                  <Stack direction={"row"} pt={2}>
-                    <Box
-                      sx={{
-                        p: 1,
-                        width: "auto",
-                        border: 1,
-                        borderRadius: 2,
-                        borderStyle: "dashed",
-                      }}
-                    >
-                      completed
-                    </Box>
-                    <Checkbox
-                      {...label}
-                      icon={<BookmarkBorderIcon />}
-                      checkedIcon={<BookmarkIcon />}
-                    />
-                    <IconButton>
-                      <Delete />
-                    </IconButton>
-                  </Stack>
-                </Stack>
-              );
-            })}
-
-            <Stack
-              direction={"column"}
-              alignItems="start"
-              sx={{
-                my: 2,
-                border: 1,
-                borderRadius: 2,
-                borderStyle: "dashed",
-                height: 80,
-              }}
-            >
-              <Button
-                onClick={handleTaskDialog}
-                sx={{
-                  width: 1,
-                  height: 1,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Add />
-              </Button>
-            </Stack>
-          </Box>
-        )} */}
       </Box>
+     
     </div>
   );
 }

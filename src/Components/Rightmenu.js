@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Drawer from "@mui/material/Drawer";
 import { styled } from "@mui/material/styles";
 import {
@@ -12,35 +12,44 @@ import {
   ListItemIcon,
   List,
   Avatar,
+  Dialog,
+  DialogTitle,
+  DialogActions,
 } from "@mui/material";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
 import { ColorModeContext } from "../App";
 import { Stack } from "@mui/system";
-import { AccountCircle } from "@mui/icons-material";
+import { AccountCircle, Brightness7 } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import {getCurrentDate , GetCurrentTime} from './CurrentDate'
 
 
-console.log(getCurrentDate())
+
 
 
 function Rightmenu({ forRightMenu, OpenRight }, props) {
   const colorMode = useContext(ColorModeContext);
   const theme = useTheme();
-  // const navigate = useNavigate();
 
-  // const Login = () => {
-  //   navigate("/login");
-  //   forRightMenu();
-  // };
+  const [taskData, setTaskData] = useState([]);
+
+ 
+  useEffect(() => {
+    const items = JSON.parse(localStorage.getItem("addTask"));
+    if (items) {
+      setTaskData(items);
+    }
+  }, []);
+
+
+ 
 
   const drawerWidth = 250;
   const { window } = props;
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
+  const container = window !== undefined ? () => window().document.body : undefined;
 
   const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
@@ -59,11 +68,7 @@ function Rightmenu({ forRightMenu, OpenRight }, props) {
   const draweItems = (
     <>
       <Container
-        sx={
-          theme.palette.mode === "dark"
-            ? { color: "white" }
-            : { color: "white" }
-        }
+       
       >
         <Stack
           direction={"row"}
@@ -75,13 +80,9 @@ function Rightmenu({ forRightMenu, OpenRight }, props) {
             <Typography> Hi,user </Typography>
             <Typography fontSize={13}> {getCurrentDate()} </Typography>
           </Stack>
-          <Avatar  sx={
-              theme.palette.mode === "dark"
-                ? { bgcolor: "#2195f2" , marginX : 1 }
-                : { bgcolor: "#434343" , marginX : 1}
-            }>
-            <AccountCircle  />
-          </Avatar>
+          
+            <AccountCircle  sx={{fontSize : 45}}/>
+        
         </Stack>
       </Container>
       <Divider />
@@ -91,26 +92,22 @@ function Rightmenu({ forRightMenu, OpenRight }, props) {
             primary={"Dark mode"}
             sx={
               theme.palette.mode === "dark"
-                ? { color: "white" , textAlign : 'center' }
-                : { color: "white" , textAlign : 'center' }
+                ? { color: "white" , textAlign : 'center',fontWeight: "bold" }
+                : { color: "black" , textAlign : 'center' , fontWeight: "bold" }
             }
           />
           <ListItemIcon>
             {theme.palette.mode === "dark" ? (
-              <Brightness4Icon />
+               <Brightness4Icon />
             ) : (
-              <Brightness4Icon />
+              <Brightness7 />
             )}
           </ListItemIcon>
         </ListItemButton>
       </List>
       <Box
         padding={2}
-        sx={
-          theme.palette.mode === "dark"
-            ? { color: "white" }
-            : { color: "white" }
-        }
+        
       >
         <Stack
           direction={"row"}
@@ -120,18 +117,20 @@ function Rightmenu({ forRightMenu, OpenRight }, props) {
           margin={1}
         >
           <Typography> All tasks </Typography>
-          <Typography> 5/10 </Typography>
+          <Typography> 0/{taskData?.length} </Typography>
         </Stack>
-        <BorderLinearProgress variant="determinate" value={50} />
+        <BorderLinearProgress variant="determinate" value={taskData?.length} />
       </Box>
       <Stack justifyContent={"center"} padding={2} marginTop="auto">
-      <Typography fontSize={13} margin={1} textAlign="end" sx={
+      <Typography fontSize={13} margin={1} textAlign="end" 
+      sx={
           theme.palette.mode === "dark"
             ? { color: "grey" }
             : { color: "primary" }
-        }> {GetCurrentTime()} </Typography>
-        <Button variant="contained" size="small" title=" Delete all tasks">
-          Delete all tasks
+        }
+        > {GetCurrentTime()} </Typography>
+        <Button variant="contained" size="large" title="Delete all tasks" onClick={""}>
+          Delete all data
         </Button> 
       </Stack>
     </>

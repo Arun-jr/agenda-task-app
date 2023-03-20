@@ -21,7 +21,7 @@ import {
   Task,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "@emotion/react";
+// import { useTheme } from "@emotion/react";
 
 function Leftmenu({ forLeftMenu, OpenLeft }, props) {
   const [taskOpen, SetTaskOpen] = useState(false);
@@ -55,13 +55,13 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  const theme = useTheme();
+  // const theme = useTheme();
 
   const draweItems = (
     <Container
-      sx={
-        theme.palette.mode === "dark" ? { color: "white" } : { color: "white" }
-      }
+      // sx={
+      //   theme.palette.mode === "dark" ? { color: "white" } : { color: "white" }
+      // }
     >
       <Typography
         variant="h5"
@@ -93,11 +93,11 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
         >
           <ListItemIcon>
             <Task
-              sx={
-                theme.palette.mode === "dark"
-                  ? { color: "white" }
-                  : { color: "white" }
-              }
+              // sx={
+              //   theme.palette.mode === "dark"
+              //     ? { color: "white" }
+              //     : { color: "white" }
+              // }
             />
           </ListItemIcon>
           <ListItemText primary="Today Task" />
@@ -109,11 +109,11 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
         >
           <ListItemIcon>
             <ListAlt
-              sx={
-                theme.palette.mode === "dark"
-                  ? { color: "white" }
-                  : { color: "white" }
-              }
+              // sx={
+              //   theme.palette.mode === "dark"
+              //     ? { color: "white" }
+              //     : { color: "white" }
+              // }
             />
           </ListItemIcon>
           <ListItemText primary="All task" />
@@ -125,11 +125,11 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
         >
           <ListItemIcon>
             <Bookmark
-              sx={
-                theme.palette.mode === "dark"
-                  ? { color: "white" }
-                  : { color: "white" }
-              }
+              // sx={
+              //   theme.palette.mode === "dark"
+              //     ? { color: "white" }
+              //     : { color: "white" }
+              // }
             />
           </ListItemIcon>
           <ListItemText primary="Important Task" />
@@ -141,11 +141,11 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
         >
           <ListItemIcon>
             <DoneAll
-              sx={
-                theme.palette.mode === "dark"
-                  ? { color: "white" }
-                  : { color: "white" }
-              }
+              // sx={
+              //   theme.palette.mode === "dark"
+              //     ? { color: "white" }
+              //     : { color: "white" }
+              // }
             />
           </ListItemIcon>
           <ListItemText primary="Completed task" />
@@ -157,11 +157,11 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
         >
           <ListItemIcon>
             <PendingActions
-              sx={
-                theme.palette.mode === "dark"
-                  ? { color: "white" }
-                  : { color: "white" }
-              }
+              // sx={
+              //   theme.palette.mode === "dark"
+              //     ? { color: "white" }
+              //     : { color: "white" }
+              // }
             />
           </ListItemIcon>
           <ListItemText primary="Uncompleted task" />

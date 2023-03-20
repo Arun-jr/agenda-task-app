@@ -9,11 +9,10 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-
 import dayjs from "dayjs";
-import { useTheme } from "@emotion/react";
-import { lightBlue } from "@mui/material/colors";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+// import { useTheme } from "@emotion/react";
+// import { lightBlue } from "@mui/material/colors";
+// import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useForm } from "react-hook-form";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -22,48 +21,48 @@ import { getCurrentDate } from "./CurrentDate";
 
 function AddTask({ forAddTask, OpenTask }) {
 
-  const materialTheme = createTheme({
-    overrides: {
-      MuiPickersToolbar: {
-        root: {
-          backgroundColor: lightBlue.A200,
-        },
-      },
-      MuiPickersCalendarHeader: {
-        root: {
-          // backgroundColor: lightBlue.A200,
-          // color: "white",
-        },
-      },
-      MuiPickersDay: {
-        root: {
-          color: lightBlue.A700,
-          "&$disabled": {
-            color: lightBlue["100"],
-          },
-          "&$selected": {
-            backgroundColor: lightBlue["400"],
-          },
-        },
-        today: {
-          color: lightBlue["900"],
-        },
-      },
-      MuiPickersModalDialog: {
-        dialogAction: {
-          color: lightBlue["400"],
-        },
-      },
-    },
-  });
+  // const materialTheme = createTheme({
+  //   overrides: {
+  //     MuiPickersToolbar: {
+  //       root: {
+  //         backgroundColor: lightBlue.A200,
+  //       },
+  //     },
+  //     MuiPickersCalendarHeader: {
+  //       root: {
+  //         // backgroundColor: lightBlue.A200,
+  //         // color: "white",
+  //       },
+  //     },
+  //     MuiPickersDay: {
+  //       root: {
+  //         color: lightBlue.A700,
+  //         "&$disabled": {
+  //           color: lightBlue["100"],
+  //         },
+  //         "&$selected": {
+  //           backgroundColor: lightBlue["400"],
+  //         },
+  //       },
+  //       today: {
+  //         color: lightBlue["900"],
+  //       },
+  //     },
+  //     MuiPickersModalDialog: {
+  //       dialogAction: {
+  //         color: lightBlue["400"],
+  //       },
+  //     },
+  //   },
+  // });
 
-  const theme = useTheme();
+  // const theme = useTheme();
 
   const [dateWithInitialValue, setDateWithInitialValue] = useState(
     dayjs(getCurrentDate())
   );
 
-  const color = "white";
+  // const color = "white";
   
   const {
     register,
@@ -72,9 +71,7 @@ function AddTask({ forAddTask, OpenTask }) {
     reset,
   } = useForm();
 
-  const [addTask, setAddTask] = useState(
-    JSON.parse(localStorage.getItem("addTask")) || []
-  );
+  const [addTask, setAddTask] = useState(JSON.parse(localStorage.getItem("addTask")) || []);
 
   useEffect(() => {
     localStorage.setItem("addTask", JSON.stringify(addTask));
@@ -86,6 +83,19 @@ function AddTask({ forAddTask, OpenTask }) {
   }, [addTask]);
 
   const OnSubmit = (data) => {
+
+    // const formData = new FormData()
+
+    // Object.assign(data);
+    // formData.append("title", data.title);
+    // formData.append("description", data.description);
+    // formData.append("date", data.date);
+    // formData.append("important", data.important);
+    // formData.append("completed", data.completed);
+
+    
+
+
     if (addTask?.length) {
       const items = JSON.parse(localStorage.getItem("addTask"))
       items.push(data)
@@ -103,11 +113,6 @@ function AddTask({ forAddTask, OpenTask }) {
     <Dialog open={OpenTask} onClose={forAddTask}>
       <Container
         className="p-4"
-        sx={
-          theme.palette.mode === "dark"
-            ? { color: "white" }
-            : { color: "white" }
-        }
       >
         <Typography className=" uppercase" textAlign="center" variant="h5">
           Add task
@@ -123,10 +128,7 @@ function AddTask({ forAddTask, OpenTask }) {
             {...register("title", { required: true })}
             margin="dense"
             color={errors?.title ? "error" : "primary"}
-            sx={{
-              input: { color },
-              label: { color },
-            }}
+           
           />
           <TextField
             required
@@ -138,23 +140,16 @@ function AddTask({ forAddTask, OpenTask }) {
             {...register("description", { required: true })}
             margin="dense"
             color={errors?.description ? "error" : "primary"}
-            sx={{
-              input: { color },
-              label: { color },
-            }}
+           
           />
-          <ThemeProvider theme={materialTheme}>
+         
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 value={dateWithInitialValue}
                 onChange={(newValue) => {
                   setDateWithInitialValue(newValue);
                 }}
-                sx={{
-                  input: { color },
-                  label: { color },
-                  svg: { color },
-                }}
+              
                 onError={console.log}
                 minDate={dayjs("")}
                 inputFormat="DD/MM/YYYY"
@@ -168,58 +163,21 @@ function AddTask({ forAddTask, OpenTask }) {
                     margin="dense"
                     aria-invalid={errors.date ? "true" : "false"}
                     {...register("date", { required: true })}
-                    sx={{
-                      input: { color },
-                      label: { color },
-                      svg: { color },
-                    }}
+                  
                   />
                 )}
               />
             </LocalizationProvider>
-          </ThemeProvider>
-
-          {/* <ThemeProvider theme={materialTheme}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <MobileDateTimePicker
-                value={dateWithInitialValue}
-                onChange={(newValue) => {
-                  setDateWithInitialValue(newValue);
-                }}
-                sx={{
-                  svg: { color },
-                  input: { color },
-                  label: { color },
-                }}
-                onError={console.log}
-                minDate={dayjs("")}
-                inputFormat="DD/MM/YYYY hh:mm a"
-                mask="____/__/__ __:__ _M"
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="standard"
-                    label="Select time"
-                    className="w-full "
-                    margin="dense"
-                    focused
-                    sx={{
-                      svg: { color },
-                      input: { color },
-                      label: { color },
-                    }}
-                  />
-                )}
-              />
-            </LocalizationProvider>
-          </ThemeProvider> */}
+         
           <FormGroup className="pt-3">
             <FormControlLabel
-              control={<Checkbox />}
+              control={<Checkbox  aria-invalid={errors.description ? "true" : "false"}
+              {...register("important")}/>}
               label="Mark as Important"
             />
-            <FormControlLabel
-              control={<Checkbox />}
+            <FormControlLabel sx={{mb : 2}}
+              control={<Checkbox  aria-invalid={errors.description ? "true" : "false"}
+              {...register("completed")}/>}
               label="Mark as Completed"
             />
             <Button
