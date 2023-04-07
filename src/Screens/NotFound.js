@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouteError } from "react-router-dom";
-import bg from "../Images/back.jpg";
+import bg from "../Images/error.png";
 
 function NotFound() {
   const error = useRouteError();

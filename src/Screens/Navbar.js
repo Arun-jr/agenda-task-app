@@ -19,6 +19,8 @@ import InputBase from "@mui/material/InputBase";
 import AddTask from "../Components/AddTask";
 import { Outlet } from "react-router-dom";
 import { useTheme } from "@emotion/react";
+import { useSelector } from "react-redux";
+import bg from "../Images/error.png";
 
 function Navbar() {
   const theme = useTheme();
@@ -85,6 +87,9 @@ function Navbar() {
     SetTaskOpen(!taskOpen);
   };
 
+
+  const task = useSelector((state) => state.Todo.todoList);
+
   const AppBarFunct = (
     <>
       <Hidden lgUp={true}>
@@ -98,22 +103,22 @@ function Navbar() {
         >
           <Menu />
         </IconButton>
-        <Hidden only={"xs"}>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            AGENDA
-          </Typography>
-        </Hidden>
-      </Hidden>
 
-      <Searcher>
-        <SearchIconWrapper>
-          <Search />
-        </SearchIconWrapper>
-        <StyledInputBase
-          placeholder="Search…"
-          inputProps={{ "aria-label": "search" }}
-        />
-      </Searcher>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 , textAlign : "center" }}>
+          AGENDA
+        </Typography>
+      </Hidden>
+      <Hidden smDown>
+        <Searcher>
+          <SearchIconWrapper>
+            <Search />
+          </SearchIconWrapper>
+          <StyledInputBase
+            placeholder="Search…"
+            inputProps={{ "aria-label": "search" }}
+          />
+        </Searcher>
+      </Hidden>
       <Hidden lgDown={true}>
         <Box sx={{ flexGrow: 1, textAlign: "right" }}>
           <IconButton
@@ -152,42 +157,82 @@ function Navbar() {
 
   return (
     <>
-      <Hidden lgUp={true}>
-        <AppBar position="sticky">
-          <Toolbar>{AppBarFunct}</Toolbar>
-        </AppBar>
-        <Outlet />
+    {/* {task.length >=1 ? (<> */}
+    <Hidden lgUp={true}>
+      <AppBar position="sticky">
+        <Toolbar>{AppBarFunct}</Toolbar>
+      </AppBar>
+      <Hidden smUp>
+        <Box sx={{ margin: 1 }}>
+          <Searcher sx={{ border: 1 }}>
+            <SearchIconWrapper>
+              <Search />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ "aria-label": "search" }}
+            />
+          </Searcher>
+        </Box>
       </Hidden>
-      <Box sx={{ display: "flex" }}>
-        <Grid container spacing={0.5} className="flex justify-center ">
-          <Grid item>
-            <Leftmenu
-              forLeftMenu={handleDrawerToggleLeft}
-              OpenLeft={mobileOpenLeft}
-            />
-          </Grid>
-          <Grid item lg={7.22} xl={7.93}>
-            <Hidden lgDown={true}>
-              <AppBar position="sticky">
-                <Toolbar>{AppBarFunct}</Toolbar>
-              </AppBar>
-              <Outlet />
-            </Hidden>
-          </Grid>
-          <Grid item>
-            <Rightmenu
-              forRightMenu={handleDrawerToggleRight}
-              OpenRight={mobileOpenRight}
-            />
-          </Grid>
+      <Outlet />
+    </Hidden>
+    <Box sx={{ display: "flex" }}>
+      <Grid container spacing={0.5} className="flex justify-center ">
+        <Grid item>
+          <Leftmenu
+            forLeftMenu={handleDrawerToggleLeft}
+            OpenLeft={mobileOpenLeft}
+          />
         </Grid>
+        <Grid item lg={7.22} xl={7.93}>
+          <Hidden lgDown={true}>
+            <AppBar position="sticky">
+              <Toolbar>{AppBarFunct}</Toolbar>
+            </AppBar>
+            <Outlet />
+          </Hidden>
+        </Grid>
+        <Grid item>
+          <Rightmenu
+            forRightMenu={handleDrawerToggleRight}
+            OpenRight={mobileOpenRight}
+          />
+        </Grid>
+      </Grid>
 
-        <AddTask forAddTask={handleTaskDialog} OpenTask={taskOpen} />
-      </Box>
-      <Fab onClick={handleTaskDialog} size="small" color="primary" aria-label="add" style={fabStyle}>
-        <Add />
-      </Fab>
-    </>
+      <AddTask forAddTask={handleTaskDialog} OpenTask={taskOpen} />
+    </Box>
+    <Fab
+      onClick={handleTaskDialog}
+      size="small"
+      color="primary"
+      aria-label="add"
+      style={fabStyle}
+    >
+      <Add />
+    </Fab></>
+
+    //   ) : (
+    //           <>
+              
+                  
+    //               <div
+    //   id="error-page"
+    //   className="flex justify-center items-center w-screen h-screen "
+    // >
+    //   <div className="text-center">
+    //   <img src={bg} alt="123" className="w-full h-full" />
+    //     <h1 className="text-3xl m-2 font-semibold">Oops!</h1>
+    //                 It seems you dont have any tasks , reload page to load default
+    //                 tasks
+    //                 </div>
+    //                 </div>
+                
+    //           </>
+    //         )}
+      
+    // </>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { createContext,  useMemo, useState } from "react";
+import React, { createContext, useMemo, useState } from "react";
 import Navbar from "./Screens/Navbar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
@@ -10,6 +10,7 @@ import UnCompletedTask from "./Screens/UncompletedTask";
 import NotFound from "./Screens/NotFound";
 // import Login from "./Screens/Login";
 import Alltask from "./Screens/Alltask";
+// import { useSelector } from "react-redux";
 
 export const ColorModeContext = createContext({
   toglleColorMode: () => {},
@@ -85,14 +86,16 @@ const router = createBrowserRouter([
       //   path: "/login",
       //   element: <Login />,
       // },
-      
     ],
   },
-  
 ]);
 
 function App() {
-  const [mode, setMode] = useState("light");
+  const [mode, setMode] = useState(() => {
+    const darkModeWasSet = localStorage.getItem("darkmode");
+    if (darkModeWasSet) return "dark";
+    else return "light";
+  });
 
   const colorMode = useMemo(
     () => ({
@@ -106,12 +109,14 @@ function App() {
   const theme2 = useMemo(() => createTheme(theme(mode)), [mode]);
 
   return (
-    <ColorModeContext.Provider value={colorMode}>
+     
+    <ColorModeContext.Provider value={colorMode} >
       <ThemeProvider theme={theme2}>
         <CssBaseline />
         <RouterProvider router={router} />
       </ThemeProvider>
     </ColorModeContext.Provider>
+    
   );
 }
 

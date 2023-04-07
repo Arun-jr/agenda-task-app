@@ -21,7 +21,7 @@ import {
   Task,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-// import { useTheme } from "@emotion/react";
+import { useTheme } from "@emotion/react";
 
 function Leftmenu({ forLeftMenu, OpenLeft }, props) {
   const [taskOpen, SetTaskOpen] = useState(false);
@@ -29,6 +29,8 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
   const [selectedIndex, setSelectedIndex] = useState(1);
 
   const navigate = useNavigate();
+
+  const theme = useTheme()
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -50,19 +52,13 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
     SetTaskOpen(!taskOpen);
   };
 
-  const drawerWidth = 250;
+  const drawerWidth = 300;
   const { window } = props;
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  // const theme = useTheme();
-
   const draweItems = (
-    <Container
-      // sx={
-      //   theme.palette.mode === "dark" ? { color: "white" } : { color: "white" }
-      // }
-    >
+    <Container>
       <Typography
         variant="h5"
         component="div"
@@ -92,13 +88,7 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
           onClick={(event) => handleListItemClick(event, 0)}
         >
           <ListItemIcon>
-            <Task
-              // sx={
-              //   theme.palette.mode === "dark"
-              //     ? { color: "white" }
-              //     : { color: "white" }
-              // }
-            />
+            <Task />
           </ListItemIcon>
           <ListItemText primary="Today Task" />
         </ListItemButton>
@@ -108,13 +98,7 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
           onClick={(event) => handleListItemClick(event, 1)}
         >
           <ListItemIcon>
-            <ListAlt
-              // sx={
-              //   theme.palette.mode === "dark"
-              //     ? { color: "white" }
-              //     : { color: "white" }
-              // }
-            />
+            <ListAlt />
           </ListItemIcon>
           <ListItemText primary="All task" />
         </ListItemButton>
@@ -124,13 +108,7 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
           onClick={(event) => handleListItemClick(event, 2)}
         >
           <ListItemIcon>
-            <Bookmark
-              // sx={
-              //   theme.palette.mode === "dark"
-              //     ? { color: "white" }
-              //     : { color: "white" }
-              // }
-            />
+            <Bookmark />
           </ListItemIcon>
           <ListItemText primary="Important Task" />
         </ListItemButton>
@@ -140,13 +118,7 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
           onClick={(event) => handleListItemClick(event, 3)}
         >
           <ListItemIcon>
-            <DoneAll
-              // sx={
-              //   theme.palette.mode === "dark"
-              //     ? { color: "white" }
-              //     : { color: "white" }
-              // }
-            />
+            <DoneAll />
           </ListItemIcon>
           <ListItemText primary="Completed task" />
         </ListItemButton>
@@ -156,17 +128,27 @@ function Leftmenu({ forLeftMenu, OpenLeft }, props) {
           onClick={(event) => handleListItemClick(event, 4)}
         >
           <ListItemIcon>
-            <PendingActions
-              // sx={
-              //   theme.palette.mode === "dark"
-              //     ? { color: "white" }
-              //     : { color: "white" }
-              // }
-            />
+            <PendingActions />
           </ListItemIcon>
           <ListItemText primary="Uncompleted task" />
         </ListItemButton>
       </List>
+      <Typography
+        variant="h6"
+        component="div"
+        sx={{
+          flexGrow: 1,
+          py: 3,
+          position: "absolute",
+          bottom: 0,
+          color: theme.palette.mode === "dark" ? "#767671" :  "#cccccc",
+        }}
+      >
+        Developed by 
+        <a href="https://github.com/Arun-jr" target="_blank" rel="noreferrer" className="ml-1">
+           Arun
+        </a>
+      </Typography>
     </Container>
   );
 
