@@ -33,8 +33,7 @@ function Rightmenu({ forRightMenu, OpenRight }, props) {
   const drawerWidth = 300;
   const { window } = props;
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
+  const container = window !== undefined ? () => window().document.body : undefined;
 
   const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
@@ -121,8 +120,8 @@ function Rightmenu({ forRightMenu, OpenRight }, props) {
         >
           <Typography> All tasks </Typography>
           <Typography>
-            {" "}
-            {CompletedTask.length}/{task?.length}{" "}
+            
+            {CompletedTask.length}/{task?.length}
           </Typography>
         </Stack>
         <BorderLinearProgress variant="determinate" value={percentage} />
