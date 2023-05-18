@@ -36,7 +36,7 @@ The project's main goal was to put into practice knowledge of Javascript, Tailwi
 
  ## Demo 
 
- You can access the project here. <a href="https://agenda-task-app.netlify.app" target="blank">📆 AGENDA</a>  
+ You can access the project here. <a href="https://agenda-task-app-arun-jr.netlify.app" target="blank">📆 AGENDA</a>  
 
  ## How to test
 
