@@ -35,6 +35,7 @@ const initialState = {
     JSON.parse(localStorage.getItem("todoTask")).length
       ? JSON.parse(localStorage.getItem("todoTask"))
       : defaultTasks,
+  filteredTodoList: [],
 };
 
 export const todoReducer = createSlice({
@@ -62,12 +63,12 @@ export const todoReducer = createSlice({
 
     EditTodo: (state, action) => {
       const taskId = action.payload.id;
-     
+
       const index = state.todoList.findIndex((task) => task.id === taskId);
       if (index !== -1) {
         state.todoList[index] = !state.todoList[index];
       }
-      state.todoList[index] = action.payload
+      state.todoList[index] = action.payload;
       localStorage.setItem("todoTask", JSON.stringify(state.todoList));
     },
 
@@ -89,6 +90,24 @@ export const todoReducer = createSlice({
       }
       localStorage.setItem("todoTask", JSON.stringify(state.todoList));
     },
+    searchTodo: (state, action) => {
+      if (action.payload === "") {
+        state.filteredTodoList = state.todoList.map(({ id }) => id);
+      } else {
+        const index = state.todoList.findIndex((task) =>
+          task.title.toLowerCase().includes(action.payload.toLowerCase())
+        );
+        if (index !== -1) {
+          state.filteredTodoList = state.todoList
+            ?.filter((task) =>
+              task.title.toLowerCase().includes(action.payload.toLowerCase())
+            )
+            .map(({ id }) => id);
+        }
+      }
+
+      // localStorage.setItem("todoTask", JSON.stringify(state.todoList));
+    },
 
     DeleteAllData: (state) => {
       state.todoList = [];
@@ -102,6 +121,7 @@ export const {
   EditTodo,
   ImportantTodo,
   CompleteTodo,
+  searchTodo,
   DeleteAllData,
 } = todoReducer.actions;
 export default todoReducer.reducer;

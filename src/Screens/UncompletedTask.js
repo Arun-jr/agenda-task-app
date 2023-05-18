@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, {  useEffect, useState } from "react";
 import {
   Clear,
   DateRange,
@@ -29,7 +29,7 @@ import { Stack } from "@mui/system";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { useDispatch, useSelector } from "react-redux";
-import { CompleteTodo, DeleteTodo, EditTodo, ImportantTodo } from "../Reducers/todoReducer";
+import { CompleteTodo, DeleteTodo, EditTodo, ImportantTodo, searchTodo } from "../Reducers/todoReducer";
 import AddTask from "../Components/AddTask";
 
 function UnCompletedTask() {
@@ -48,8 +48,23 @@ function UnCompletedTask() {
     setAlignment(newAlignment);
   };
 
-  const task = useSelector((state) => state.Todo.todoList);
+  const { filteredTodoList, todoList } = useSelector((state) => state.Todo);
 
+  const [task, setTask] = useState([]);
+
+  useEffect(() => {
+    dispatch(searchTodo(""));
+    setEarlier();
+  }, []);
+
+  useEffect(() => {
+    setTask(
+      todoList.filter((todo) =>
+        filteredTodoList.some((todoId) => todoId === todo.id)
+      )
+    );
+    setEarlier();
+  }, [filteredTodoList, todoList]);
 
   const UnCompletedTask = task.filter((task) => task.completed !== true);
 
@@ -80,7 +95,7 @@ function UnCompletedTask() {
 
   const deleteTask = (id) => {
     dispatch(DeleteTodo(id));
-    if (earlier.length) {
+    if (earlier?.length) {
       setEarlier(earlier.filter((task) => task.id !== id));
     }
   };
@@ -90,7 +105,6 @@ function UnCompletedTask() {
     setTasks(edit);
     SetTaskOpen(!taskOpen);
   };
-
 
 
 
@@ -237,87 +251,90 @@ function UnCompletedTask() {
                     borderColor: "gray",
                   }}
                 >
-                 <Hidden lgUp>
-                  <Tooltip
-                    title={`${
-                      data.completed === true ? "undone task" : "done task"
-                    }`}
-                    placement="top"
-                    arrow
-                    TransitionProps={{ timeout: 600 }}
-                  >
-                    <Checkbox
-                      {...label}
-                      onClick={() => dispatch(CompleteTodo(data.id))}
-                      checked={data.completed === true ? true : false}
-                      icon={
-                        <Avatar
-                          sx={{
-                            width: { xs: 30, md: 40 },
-                            height: { xs: 30, md: 40 },
-                          }}
-                        >
-                          <Done />
-                        </Avatar>
-                      }
-                      checkedIcon={
-                        <Avatar
-                          sx={{
-                            width: { xs: 30, md: 40 },
-                            height: { xs: 30, md: 40 },
-                            bgcolor: "#2195f2",
-                          }}
-                        >
-                          <Clear />
-                        </Avatar>
-                      }
-                    />
-                  </Tooltip>
-                </Hidden>
-                <Hidden lgDown>
-                <Tooltip
-                    title={`${
-                      data.completed === true ? "undone task" : "done task"
-                    }`}
-                    placement="top"
-                    arrow
-                    TransitionProps={{ timeout: 600 }}
-                  >
-                  <Checkbox
-                    size="small"
-                  
-                    {...label}
-                    onClick={() => dispatch(CompleteTodo(data.id))}
-                    checked={data.completed === true ? true : false}
-                    icon={
-                      <Typography
-                        sx={{
-                          border: 1,
-                          borderStyle: "dashed",
-                          borderRadius: 5,
-                          padding: 0.5,
-                          fontSize: 12,
-                        }}
+                   <Hidden lgUp={true}>
+                      <Tooltip
+                        title={`${
+                          data.completed === true ? "un complete task" : "done task"
+                        }`}
+                        placement="top"
+                        arrow
+                        TransitionProps={{ timeout: 600 }}
                       >
-                        complete
-                      </Typography>
-                    }
-                    checkedIcon={
-                      <Typography
-                        sx={{
-                          border: 1,
-                          borderStyle: "dashed",
-                          borderRadius: 5,
-                          padding: 0.5,
-                          fontSize: 12,
-                        }}
+                        <Checkbox
+                          {...label}
+                          onClick={() => dispatch(CompleteTodo(data.id))}
+                          checked={data.completed === true ? true : false}
+                          icon={
+                            <Avatar
+                              sx={{
+                                width: { xs: 30, md: 40 },
+                                height: { xs: 30, md: 40 },
+                              }}
+                            >
+                              <Done />
+                            </Avatar>
+                          }
+                          checkedIcon={
+                            <Avatar
+                              sx={{
+                                width: { xs: 30, md: 40 },
+                                height: { xs: 30, md: 40 },
+                                bgcolor: "#008140",
+                              }}
+                            >
+                              <Clear />
+                            </Avatar>
+                          }
+                        />
+                      </Tooltip>
+                    </Hidden>
+                    <Hidden lgDown={true}>
+                      <Tooltip
+                        title={`${
+                          data.completed === true ? "Task completed" : "complete task"
+                        }`}
+                        placement="top"
+                        arrow
+                        TransitionProps={{ timeout: 600 }}
                       >
-                        Un complete
-                      </Typography>
-                    }
-                  />
-                  </Tooltip>
-                </Hidden>
+                        <Checkbox
+                          size="small"
+                          {...label}
+                          onClick={() => dispatch(CompleteTodo(data.id))}
+                          checked={data.completed === true ? true : false}
+                          icon={
+                            <Typography
+                              sx={{
+                                border: 1,
+                                borderStyle: "dashed",
+                                borderRadius: 5,
+                                padding: 0.5,
+
+                                fontSize: 12,
+                              }}
+                            >
+                              complete
+                            </Typography>
+                          }
+                          checkedIcon={
+                            <Typography
+                              sx={{
+                                border: 1,
+                                borderStyle: "dashed",
+                                borderRadius: 5,
+                                borderColor : "green",
+                                color : "green" ,
+                                padding: 0.5,
+                                fontSize: 12,
+                              }}
+                            >
+                              completed
+                            </Typography>
+                          }
+                        />
+                      </Tooltip>
+                    </Hidden>
+
                 <Stack direction={"row"} alignItems="start">
                   <Checkbox
                   title="important"

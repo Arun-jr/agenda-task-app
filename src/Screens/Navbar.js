@@ -19,8 +19,8 @@ import InputBase from "@mui/material/InputBase";
 import AddTask from "../Components/AddTask";
 import { Outlet } from "react-router-dom";
 import { useTheme } from "@emotion/react";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { searchTodo } from "../Reducers/todoReducer";
 
 function Navbar() {
   const theme = useTheme();
@@ -86,8 +86,26 @@ function Navbar() {
   const handleTaskDialog = () => {
     SetTaskOpen(!taskOpen);
   };
+const dispatch = useDispatch()
 
+  const searchItems = (e) => {
+    console.log(e.target.value);
+    const searchText = e.target.value
+    dispatch(searchTodo(searchText))
 
+  };
+
+  // const [searchVal, setSearchVal] = useState("");
+
+  // function handleSearchClick() {
+
+  //     if (searchVal === "") { setProducts(productList); return; }
+  //     const filterBySearch = productList.filter((item) => {
+  //         if (item.toLowerCase()
+  //             .includes(searchVal.toLowerCase())) { return item; }
+  //     })
+  //     setProducts(filterBySearch);
+  // }
 
   const AppBarFunct = (
     <>
@@ -119,6 +137,7 @@ function Navbar() {
           <StyledInputBase
             placeholder="Search…"
             inputProps={{ "aria-label": "search" }}
+            onChange={(e) => searchItems(e)}
           />
         </Searcher>
       </Hidden>
@@ -173,6 +192,7 @@ function Navbar() {
               <StyledInputBase
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
+                onChange={(e) => searchItems(e)}
               />
             </Searcher>
           </Box>

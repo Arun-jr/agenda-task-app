@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Clear,
@@ -33,6 +33,7 @@ import {
   DeleteTodo,
   EditTodo,
   ImportantTodo,
+  searchTodo,
 } from "../Reducers/todoReducer";
 // import { getCurrentDate } from "../Components/CurrentDate";
 import AddTask from "../Components/AddTask";
@@ -52,13 +53,31 @@ function TodayTask() {
     setAlignment(newAlignment);
   };
 
-  const task = useSelector((state) => state.Todo.todoList);
+  const { filteredTodoList, todoList } = useSelector((state) => state.Todo);
 
+  const [task, setTask] = useState([]);
+
+  useEffect(() => {
+    dispatch(searchTodo(""));
+    setEarlier();
+  }, []);
+
+  useEffect(() => {
+    setTask(
+      todoList.filter((todo) =>
+        filteredTodoList.some((todoId) => todoId === todo.id)
+      )
+    );
+    setEarlier();
+  }, [filteredTodoList, todoList]);
 
   const TodayTask = task.filter((item) => {
-    const itemDate = new Date(item.date);
-    const today = new Date();
-    return itemDate <= today;
+    const itemDate = new Date(item.date).toLocaleDateString();
+    const today = new Date().toLocaleDateString();
+   
+    if (itemDate === today){
+      return item
+    }
   });
 
   const [earlier, setEarlier] = useState();
@@ -87,7 +106,7 @@ function TodayTask() {
 
   const deleteTask = (id) => {
     dispatch(DeleteTodo(id));
-    if (earlier.length) {
+    if (earlier?.length) {
       setEarlier(earlier.filter((task) => task.id !== id));
     }
   };
@@ -254,10 +273,12 @@ function TodayTask() {
                     borderColor: "gray",
                   }}
                 >
-                  <Hidden lgUp>
+                  <Hidden lgUp={true}>
                     <Tooltip
                       title={`${
-                        data.completed === true ? "undone task" : "done task"
+                        data.completed === true
+                          ? "un complete task"
+                          : "done task"
                       }`}
                       placement="top"
                       arrow
@@ -282,7 +303,7 @@ function TodayTask() {
                             sx={{
                               width: { xs: 30, md: 40 },
                               height: { xs: 30, md: 40 },
-                              bgcolor: "#2195f2",
+                              bgcolor: "#008140",
                             }}
                           >
                             <Clear />
@@ -291,10 +312,12 @@ function TodayTask() {
                       />
                     </Tooltip>
                   </Hidden>
-                  <Hidden lgDown>
+                  <Hidden lgDown={true}>
                     <Tooltip
                       title={`${
-                        data.completed === true ? "undone task" : "done task"
+                        data.completed === true
+                          ? "Task completed"
+                          : "complete task"
                       }`}
                       placement="top"
                       arrow
@@ -312,6 +335,7 @@ function TodayTask() {
                               borderStyle: "dashed",
                               borderRadius: 5,
                               padding: 0.5,
+
                               fontSize: 12,
                             }}
                           >
@@ -324,16 +348,19 @@ function TodayTask() {
                               border: 1,
                               borderStyle: "dashed",
                               borderRadius: 5,
+                              borderColor: "green",
+                              color: "green",
                               padding: 0.5,
                               fontSize: 12,
                             }}
                           >
-                            Un complete
+                            completed
                           </Typography>
                         }
                       />
                     </Tooltip>
                   </Hidden>
+
                   <Stack direction={"row"} alignItems="start">
                     <Checkbox
                       title="important"

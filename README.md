@@ -2,9 +2,9 @@
 
 A to-do list organizer website made with React JS, Tailwind CSS , Redux Toolkit , JavaScript, Material UI , and more.
 
-![Home page(Darkmode)](https://github.com/Arun-jr/agenda-task-app/tree/main/src/Images/agenda_dark-mode.png)
+![homepagedarkmode](https://raw.githubusercontent.com/Arun-jr/agenda-task-app/main/src/Images/agenda_dark-mode.png)
 
-![Home page(lightmode)](https://github.com/Arun-jr/agenda-task-app/tree/main/src/Images/agenda_light-mode.png)
+![homepagelightmode](https://raw.githubusercontent.com/Arun-jr/agenda-task-app/main/src/Images/agenda_light-mode.png)
 
 ## Description
 
@@ -36,7 +36,7 @@ The project's main goal was to put into practice knowledge of Javascript, Tailwi
 
  ## Demo 
 
- You can access the project here. https://github.com/Arun-jr/agenda-task-app
+ You can access the project here. <a href="https://agenda-task-app.netlify.app" target="blank">📆 AGENDA</a>  
 
  ## How to test
 
